@@ -10,6 +10,10 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\App;
 
+    /**
+     * Class PostController
+     * @package App\Http\Controllers
+     */
     class PostController extends Controller
     {
 
@@ -25,7 +29,7 @@
          */
         public function index()
         {
-            $posts = Post::all();
+            $posts = Post::orderBy('created_at', 'desc')->simplePaginate(10);
             return view( 'posts', compact( 'posts' ) );
             //
         }
@@ -44,18 +48,26 @@
         /**
          * Store a newly created resource in storage.
          *
-         * @param  \Illuminate\Http\Request $request
+         * @param  Request $request
          * @return \Illuminate\Http\Response
          */
         public function store( Request $request )
         {
+        	$this->validate( $request,[
+        		'title' => 'required|max:255',
+        		'body' => 'required'
+	        ]);
             $post = new Post;
             $post->title = $request->input( 'title' );
             $post->body = $request->input( 'body' );
-            $post->created_by = $request->input( 'created_by' );
+            $post->created_by = Auth::user()->name;
             $post->published_at = Carbon::now( "EST" );
+	        $post->save();
 
-            $post->save();
+	        if($request->input('quick_post')) {
+		        return redirect('/home');
+	        }
+
             return redirect( '/posts' );
         }
 
@@ -88,7 +100,7 @@
 	        $user = Auth::user();
 
 	        if($user->name !==  $post->created_by ){
-	        	return back()->withInput();
+	        	return back();
 	        }
 
             return view( 'updater', compact( 'post', 'user'));
@@ -118,6 +130,7 @@
          */
         public function destroy( $id )
         {
-            //
+            Post::destroy( $id);
+        	return redirect('/home');
         }
     }

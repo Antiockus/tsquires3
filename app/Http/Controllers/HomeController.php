@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $posts = Post::where('created_by', $user->name)->get();
+        $posts = Post::where('created_by', $user->name)->orderBy('created_at', 'desc')->simplePaginate(10);
         return view('home', compact( 'posts'));
     }
 }

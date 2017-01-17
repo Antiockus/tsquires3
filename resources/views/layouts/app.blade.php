@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/customStyles.css">
 
     <!-- Scripts -->
 
@@ -20,6 +21,8 @@
 			'csrfToken' => csrf_token(),
 		] ); ?>
     </script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
     @section('scripts')
 
     @show
@@ -50,7 +53,7 @@
                 <ul class="nav navbar-nav">
                     @if(Auth::check())
                         &nbsp;
-                        <li><a href="{{ url('/home') }}">Home</a></li>
+                        <li><a href="{{ url('/home') }}">Dashboard</a></li>
                     @endif
                 </ul>
 
