@@ -16,7 +16,7 @@
             <h1>{{$post->title}}</h1>
             <h2>Created by: {{$post->created_by}}</h2>
             <date>{{$post->published_at}}</date>
-            <p>{!! $post->body !!}</p>
+            <p>{!!  $post->body !!}</p>
         </div>
     </div>
 @endsection

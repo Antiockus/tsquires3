@@ -9,8 +9,15 @@
         <div class="row">
             @if( count($posts) >= 1)
                 @foreach($posts as $post)
-                    <h1><a href="{{url("/posts/$post->id")}}">{{ $post->title }}</a></h1>
-                    <sub>{{ $post->published_at }}</sub>
+                    <div class="card panel panel-default">
+                        <div class="panel-header">
+                            <h1><a href="{{url("/posts/$post->id")}}">{{ $post->title }}</a></h1>
+                        </div>
+                        <div class="panel-body">
+                            <sub>{{ $post->published_at }}</sub>
+                            <p>{!!  str_limit($post->body, 100, '...') !!}</p>
+                        </div>
+                    </div>
                 @endforeach
             @else
                 <h1>No Posts Found</h1>
